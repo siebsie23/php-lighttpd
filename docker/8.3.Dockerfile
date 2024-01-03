@@ -33,7 +33,7 @@ COPY config /
 # Set the correct permission for the /var/wwww folder for www-data user
 RUN chown -R www-data:www-data /var/www
 
-WORKDIR /var/www/localhost/htdocs
+WORKDIR /var/www
 
 EXPOSE 80
 
