@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.1-fpm-bullseye
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -9,7 +9,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/siebsie23/php-lighttpd.git" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.name="php-lighttpd" \
-      org.label-schema.description="Docker image with PHP 8.3, Lighttpd and Alpine" \
+      org.label-schema.description="Docker image with PHP 8.1, Lighttpd and Alpine" \
       org.label-schema.url="https://github.com/siebsie23/php-lighttpd"
 
 # PHP_INI_DIR to be symmetrical with official php docker image
@@ -24,12 +24,16 @@ ARG DEPS="\
         curl \
         ca-certificates \
         runit \
+        procps \
 "
 
-RUN apk add --no-cache $DEPS
+RUN apt-get update && apt-get install -y --no-install-recommends $DEPS && rm -rf /var/lib/apt/lists/*
+
+# Delete the service directory before copying the new one
+RUN rm -rf /etc/service
 
 COPY config /
-COPY config-alpine /
+COPY config-bullseye /
 
 # Set the correct permission for the /var/wwww folder for www-data user
 RUN chown -R www-data:www-data /var/www

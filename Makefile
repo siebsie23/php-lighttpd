@@ -3,15 +3,19 @@ build: # Build single image image. Usage: make build TAG="phpversion"
 
 build-80: # 8.0
 	make build TAG="8.0-alpine"
+	make build TAG="8.0-bullseye"
 
 build-81: # 8.1
 	make build TAG="8.1-alpine"
+	make build TAG="8.1-bullseye"
 
 build-82: # 8.2
 	make build TAG="8.2-alpine"
+	make build TAG="8.2-bullseye"
 
 build-83: # 8.3
 	make build TAG="8.3-alpine"
+	make build TAG="8.3-bullseye"
 
 build-all: # Build all images
 	make build-80
@@ -21,15 +25,19 @@ build-all: # Build all images
 
 push-80: # Push built 8.0 image to Docker Hub
 	@docker push siebsie23/php-lighttpd:8.0-alpine
+	@docker push siebsie23/php-lighttpd:8.0-bullseye
 
 push-81: # Push built 8.1 image to Docker Hub
 	@docker push siebsie23/php-lighttpd:8.1-alpine
+	@docker push siebsie23/php-lighttpd:8.1-bullseye
 
 push-82: # Push built 8.2 image to Docker Hub
 	@docker push siebsie23/php-lighttpd:8.2-alpine
+	@docker push siebsie23/php-lighttpd:8.2-bullseye
 
 push-83: # Push built 8.3 image to Docker Hub
 	@docker push siebsie23/php-lighttpd:8.3-alpine
+	@docker push siebsie23/php-lighttpd:8.3-bullseye
 
 push-all: # Push all built images to Docker Hub
 	make push-80

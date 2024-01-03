@@ -29,6 +29,7 @@ ARG DEPS="\
 RUN apk add --no-cache $DEPS
 
 COPY config /
+COPY config-alpine /
 
 # Set the correct permission for the /var/wwww folder for www-data user
 RUN chown -R www-data:www-data /var/www

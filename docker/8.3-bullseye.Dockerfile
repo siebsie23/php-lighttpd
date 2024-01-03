@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine
+FROM php:8.3-fpm-bullseye
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -24,12 +24,16 @@ ARG DEPS="\
         curl \
         ca-certificates \
         runit \
+        procps \
 "
 
-RUN apk add --no-cache $DEPS
+RUN apt-get update && apt-get install -y --no-install-recommends $DEPS && rm -rf /var/lib/apt/lists/*
+
+# Delete the service directory before copying the new one
+RUN rm -rf /etc/service
 
 COPY config /
-COPY config-alpine /
+COPY config-bullseye /
 
 # Set the correct permission for the /var/wwww folder for www-data user
 RUN chown -R www-data:www-data /var/www
