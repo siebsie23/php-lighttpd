@@ -1,63 +1,17 @@
-build: # Build single image image. Usage: make build TAG="phpversion"
-	@docker build --no-cache --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --build-arg VCS_REF=`git rev-parse --short HEAD` -t siebsie23/php-lighttpd:$(TAG) -f docker/$(TAG).Dockerfile docker
+build: # Build single image image. Usage: make build PHP_VERSION="phpversion" DISTRO="distro"
+	@docker build --no-cache --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` --build-arg VCS_REF=`git rev-parse --short HEAD` --build-arg PHP_VER="$(PHP_VERSION)" -t siebsie23/php-lighttpd:$(PHP_VERSION)-$(DISTRO) -f docker/$(DISTRO).Dockerfile docker
 
-build-80: # 8.0
-	make build TAG="8.0-alpine"
-	make build TAG="8.0-bullseye"
+build-all: # Build all images with a specific PHP version. Usage: make build-all PHP_VERSION="phpversion"
+	make build PHP_VERSION="$(PHP_VERSION)" DISTRO="alpine"
+	make build PHP_VERSION="$(PHP_VERSION)" DISTRO="bullseye"
 
-build-81: # 8.1
-	make build TAG="8.1-alpine"
-	make build TAG="8.1-bullseye"
+push-all: # Push all built distro images to Docker Hub. Usage: make push-all PHP_VERSION="phpversion"
+	@docker push siebsie23/php-lighttpd:$(PHP_VERSION)-alpine
+	@docker push siebsie23/php-lighttpd:$(PHP_VERSION)-bullseye
 
-build-82: # 8.2
-	make build TAG="8.2-alpine"
-	make build TAG="8.2-bullseye"
-
-build-83: # 8.3
-	make build TAG="8.3-alpine"
-	make build TAG="8.3-bullseye"
-
-build-all: # Build all images
-	make build-80
-	make build-81
-	make build-82
-	make build-83
-
-push-80: # Push built 8.0 image to Docker Hub
-	@docker push siebsie23/php-lighttpd:8.0-alpine
-	@docker push siebsie23/php-lighttpd:8.0-bullseye
-
-push-81: # Push built 8.1 image to Docker Hub
-	@docker push siebsie23/php-lighttpd:8.1-alpine
-	@docker push siebsie23/php-lighttpd:8.1-bullseye
-
-push-82: # Push built 8.2 image to Docker Hub
-	@docker push siebsie23/php-lighttpd:8.2-alpine
-	@docker push siebsie23/php-lighttpd:8.2-bullseye
-
-push-83: # Push built 8.3 image to Docker Hub
-	@docker push siebsie23/php-lighttpd:8.3-alpine
-	@docker push siebsie23/php-lighttpd:8.3-bullseye
-
-push-all: # Push all built images to Docker Hub
-	make push-80
-	make push-81
-	make push-82
-	make push-83
-
-build-and-push-83: # Build and push 8.3 image to Docker Hub
-	make build-80
-	make build-81
-	make build-82
-	make build-83
-	make push-80
-	make push-81
-	make push-82
-	make push-83
-
-build-and-push: # Build all images and push them to Docker Hub
-	make build-all
-	make push-all
+build-and-push: # Build and push all images with a specific PHP version. Usage: make build-and-push PHP_VERSION="phpversion"
+	make build-all PHP_VERSION="$(PHP_VERSION)"
+	make push-all PHP_VERSION="$(PHP_VERSION)"
 
 clean: # Clean all containers and images on the system
 	-@docker ps -a -q | xargs docker rm -f

@@ -1,4 +1,6 @@
-FROM php:8.3-fpm-alpine
+ARG PHP_VER
+
+FROM php:${PHP_VER}-fpm-alpine
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -9,7 +11,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/siebsie23/php-lighttpd.git" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.name="php-lighttpd" \
-      org.label-schema.description="Docker image with PHP 8.3, Lighttpd and Alpine" \
+      org.label-schema.description="Docker image with PHP ${PHP_VER}, Lighttpd and Alpine" \
       org.label-schema.url="https://github.com/siebsie23/php-lighttpd"
 
 # PHP_INI_DIR to be symmetrical with official php docker image
