@@ -17,9 +17,6 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 # PHP_INI_DIR to be symmetrical with official php docker image
 ENV PHP_INI_DIR /usr/local/etc/php
 
-# When using Composer, disable the warning about running commands as root/super user
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
 # Persistent runtime dependencies
 ARG DEPS="\
         lighttpd \
@@ -33,10 +30,18 @@ RUN apk add --no-cache $DEPS
 COPY config /
 COPY config-alpine /
 
-# Set the correct permission for the /var/wwww folder for www-data user
-RUN chown -R www-data:www-data /var/www
+# Set the correct folder permissions for the www-data user
+RUN touch /env && chown www-data:www-data /env \
+    && chown -R www-data:www-data /var/www \
+    && mkdir -p /var/cache/lighttpd \
+    && chown -R www-data:www-data /var/cache/lighttpd
+
+# Set the home directory of the www-data user to /var/www
+RUN sed -i "s|/home/www-data|/var/www|g" /etc/passwd
 
 WORKDIR /var/www
+
+USER www-data
 
 EXPOSE 80
 
