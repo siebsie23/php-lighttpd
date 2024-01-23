@@ -34,7 +34,8 @@ COPY config-alpine /
 RUN touch /env && chown www-data:www-data /env \
     && chown -R www-data:www-data /var/www \
     && mkdir -p /var/cache/lighttpd \
-    && chown -R www-data:www-data /var/cache/lighttpd
+    && chown -R www-data:www-data /var/cache/lighttpd \
+    && chown -R www-data:www-data /etc/service
 
 # Set the home directory of the www-data user to /var/www
 RUN sed -i "s|/home/www-data|/var/www|g" /etc/passwd
