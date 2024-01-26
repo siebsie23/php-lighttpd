@@ -25,7 +25,7 @@ The images are built on multiple distros which can be found in the table below. 
 | 8.0 | `8.0-alpine` <br/> `8.0-bullseye` |
 
 ### Build from Source
-Clone this repository and build the image with `PHP_VERSION="phpversion" DISTRO="distro"` phpversion being a valid php-fpm docker image version and distro being one of `alpine` or `bullseye`.
+Clone the git repository and build the image with `make build PHP_VERSION="phpversion" DISTRO="distro"` phpversion being a valid php-fpm docker image version and distro being one of `alpine` or `bullseye`.
 
 ## Configuration
 
