@@ -4,10 +4,14 @@ FROM php:${PHP_VER}-fpm-bullseye
 
 ARG BUILD_DATE
 ARG VCS_REF
+ARG PHP_BUILD_VERSION
+ARG LIGHTTPD_BUILD_VERSION
 
 USER root
 
-LABEL org.label-schema.build-date=$BUILD_DATE \
+LABEL PHP_VERSION=$PHP_BUILD_VERSION \
+      LIGHTTPD_VERSION=$LIGHTTPD_BUILD_VERSION \
+      org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.vcs-url="https://github.com/siebsie23/php-lighttpd.git" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.name="php-lighttpd" \
