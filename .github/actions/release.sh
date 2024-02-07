@@ -11,8 +11,8 @@ if [[ "${GITHUB_REF}" == refs/heads/main || "${GITHUB_REF}" == refs/tags/* ]]; t
 
     # Pull the siebsie23/php-lighttpd image to check if the lighttpd and php version already exists
     docker pull siebsie23/php-lighttpd:${PHP_VERSION}-alpine
-    EXISTING_LIGHTTPD_BUILD_VERSION=$(docker inspect -f '{{ index .Config.Labels }}' siebsie23/php-lighttpd:${PHP_VERSION}-alpine | grep -oP 'LIGHTTPD_VERSION=\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -n1) || true
-    EXISTING_PHP_BUILD_VERSION=$(docker inspect -f '{{ index .Config.Labels }}' siebsie23/php-lighttpd:${PHP_VERSION}-alpine | grep -oP 'PHP_VERSION=\K[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -n1) || true
+    EXISTING_LIGHTTPD_BUILD_VERSION=$(docker inspect -f '{{ index .Config.Labels "LIGHTTPD_VERSION" }}' siebsie23/php-lighttpd:${PHP_VERSION}-alpine) || true
+    EXISTING_PHP_BUILD_VERSION=$(docker inspect -f '{{ index .Config.Labels "PHP_VERSION" }}' siebsie23/php-lighttpd:${PHP_VERSION}-alpine) || true
 
     if [[ "${LIGHTTPD_BUILD_VERSION}" == "${EXISTING_LIGHTTPD_BUILD_VERSION}" && "${PHP_BUILD_VERSION}" == "${EXISTING_PHP_BUILD_VERSION}" ]]; then
         echo "The image siebsie23/php-lighttpd:${PHP_VERSION} with lighttpd ${LIGHTTPD_BUILD_VERSION} and php ${PHP_BUILD_VERSION} already exists. Skipping the build."
