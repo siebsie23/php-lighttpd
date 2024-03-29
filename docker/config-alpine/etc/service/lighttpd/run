@@ -3,4 +3,4 @@
 exec 2>&1
 source /env
 
-exec /usr/sbin/lighttpd -D -f /etc/lighttpd/example.conf
+exec /usr/sbin/lighttpd -D -f /etc/lighttpd/lighttpd.conf
